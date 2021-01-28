@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'P_HOME.MY_PAYMENT' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-item *ngFor="let p of payments" (click)="openPaymentDetails(p.Id)" lines="none">
+    <ion-avatar slot="start">
+      <ion-icon size="large" class="{{getStatusIconColor(p.Status)}}" name="{{getStatusIcon(p.Status)}}"></ion-icon>
+    </ion-avatar>
+    <ion-label>
+      <h2>{{'P_PAYMENT_SCHEDULE.PAYMENT_NUMBER' | translate}}{{ p.Id }}</h2>
+      <p>{{ p.CreatedAt | date:'dd.MM.yyyy hh:mm' }}</p>
+    </ion-label>
+    <ion-label class="amount">
+      <h2 class="blue-icon">{{ p.IsRecurringPayment === true ? p.RecurringAmount : p.Amount | number:'2.2-2' }} <span>&#8376;</span></h2>
+    </ion-label>
+  </ion-item>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-padding">
+  <img src="assets/logo/keep_talk_logo_horizon.png" class="intoo-logo-horizontal"  (click)="goToHomePage()"/>
+</ion-footer>

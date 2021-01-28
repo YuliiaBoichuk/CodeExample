@@ -1,0 +1,202 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/my-services"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'P_EXCHANGE.TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="container">
+
+    <div class="form">
+
+      <form [formGroup]="exchangeForm">
+        <div>
+
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text>{{ 'P_EXCHANGE.GROUP_CERT' | translate }}</ion-text>
+            </ion-item-divider>
+
+            <!--<ion-label>{{ 'P_EXCHANGE.CERT_SERIES' | translate }} / {{ 'P_EXCHANGE.CERT_NUMBER' | translate }}</ion-label>-->
+            <ion-item>
+              <ion-input type="text"
+                         [placeholder]="'P_EXCHANGE.CERT_SERIES' | translate"
+                         [autocapitalize]="'on'"
+                         [minlength]="2"
+                         [maxlength]="2"
+                         formControlName="certSeries">
+              </ion-input>
+              <ion-input type="number"
+                         [placeholder]="'P_EXCHANGE.CERT_NUMBER' | translate"
+                         [minlength]="13"
+                         [maxlength]="13"
+                         formControlName="certNumber">
+              </ion-input>
+            </ion-item>
+            <small *ngIf="(!exchangeForm.controls.certSeries.valid || !exchangeForm.controls.certNumber.valid) && (exchangeForm.controls.certSeries.dirty || exchangeForm.controls.certNumber.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.CERT_VALID' | translate }}</p>
+            </small>
+          </ion-item-group>
+
+          <ion-item-group *ngIf="false">
+            <ion-item-divider>
+              <ion-text>{{ 'P_EXCHANGE.GROUP_DEVICE' | translate }}</ion-text>
+            </ion-item-divider>
+
+            <ion-label>{{ 'P_EXCHANGE.DEVICE_BRAND' | translate }}</ion-label>
+            <ion-item>
+              <ion-select cancelText="{{ 'CANCEL' | translate }}" okText="{{ 'SELECT' | translate }}"type="select"
+                         [placeholder]="'SELECT' | translate"
+                          [interfaceOptions]="customSelectOptionsBrand"
+                         formControlName="deviceBrand">
+                <ion-select-option *ngFor="let brand of deviceBrands" value="{{brand.id}}">{{brand.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <small *ngIf="!exchangeForm.controls.deviceBrand.valid  && (exchangeForm.controls.deviceBrand.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.BRAND_SELECT' | translate }}</p>
+            </small>
+
+            <ion-label>{{ 'P_EXCHANGE.DEVICE_MODEL' | translate }}</ion-label>
+            <ion-item>
+              <ion-select cancelText="{{ 'CANCEL' | translate }}" okText="{{ 'SELECT' | translate }}"type="select"
+                          [placeholder]="'SELECT' | translate"
+                          [interfaceOptions]="customSelectOptionsModel"
+                          formControlName="deviceModel">
+                <ion-select-option *ngFor="let model of deviceModels" value="{{model.id}}">{{model.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <small *ngIf="!exchangeForm.controls.deviceModel.valid  && (exchangeForm.controls.deviceModel.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.MODEL_SELECT' | translate }}</p>
+            </small>
+          </ion-item-group>
+
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text>{{ 'P_EXCHANGE.GROUP_CAUSE' | translate }}</ion-text>
+            </ion-item-divider>
+
+            <ion-label>{{ 'P_EXCHANGE.CAUSE_OF_DAMAGE' | translate }}</ion-label>
+            <ion-item>
+              <ion-select cancelText="{{ 'CANCEL' | translate }}" okText="{{ 'SELECT' | translate }}"type="select"
+                          [placeholder]="'SELECT' | translate"
+                          [interfaceOptions]="customSelectOptionsCauses"
+                          formControlName="deviceCause">
+                <ion-select-option *ngFor="let cause of damageCauses" value="{{cause.id}}">{{cause.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <small *ngIf="!exchangeForm.controls.deviceCause.valid  && (exchangeForm.controls.deviceCause.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.CAUSE_SELECT' | translate }}</p>
+            </small>
+
+            <ion-label>{{ 'P_EXCHANGE.DESCRIPTION_OF_DAMAGE' | translate }}</ion-label>
+            <ion-item>
+              <ion-select cancelText="{{ 'CANCEL' | translate }}" okText="{{ 'SELECT' | translate }}"type="select"
+                          [placeholder]="'SELECT' | translate"
+                          [interfaceOptions]="customSelectOptionsDescriptions"
+                          [multiple]="true"
+                          formControlName="deviceDescription">
+                <ion-select-option *ngFor="let description of damageDescriptions" value="{{description.id}}">{{description.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <small *ngIf="!exchangeForm.controls.deviceDescription.valid  && (exchangeForm.controls.deviceDescription.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.DESCRIPTION_SELECT' | translate }}</p>
+            </small>
+          </ion-item-group>
+
+          <ion-item-group>
+            <ion-item-divider>
+              <ion-text>{{ 'P_EXCHANGE.GROUP_ACCESSORIES' | translate }}</ion-text>
+            </ion-item-divider>
+
+            <ion-item>
+              <ion-label>{{ 'P_EXCHANGE.ACC_WARRANTY_CARD' | translate }}</ion-label>
+              <ion-checkbox formControlName="accWarranty"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>{{ 'P_EXCHANGE.ACC_PACKAGING' | translate }}</ion-label>
+              <ion-checkbox formControlName="accPackaging"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>{{ 'P_EXCHANGE.ACC_ACCESSORIES' | translate }}</ion-label>
+              <ion-checkbox formControlName="accAccessories"></ion-checkbox>
+            </ion-item>
+
+            <ion-card>
+              <ion-card-header align="center">
+                <ion-card-subtitle>{{ 'P_EXCHANGE.ACC_I_CONFIRM_THAT' | translate }}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+
+              <p>
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-text>{{ 'P_EXCHANGE.CONFIRM_EQUIPMENT' | translate }}</ion-text>
+              </p>
+              <p>
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-text>{{ 'P_EXCHANGE.CONFIRM_SIM' | translate }}</ion-text>
+              </p>
+              <p>
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-text>{{ 'P_EXCHANGE.CONFIRM_PORT' | translate }}</ion-text>
+              </p>
+              <p>
+                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-text>{{ 'P_EXCHANGE.CONFIRM_BODY' | translate }}</ion-text>
+              </p>
+
+              <ion-item>
+                <ion-label>{{ 'P_EXCHANGE.CONFIRM' | translate }}</ion-label>
+                <ion-checkbox formControlName="accConfirm"></ion-checkbox>
+              </ion-item>
+
+              </ion-card-content>
+            </ion-card>
+          </ion-item-group>
+
+          <ion-item-group *ngIf="false">
+            <ion-item-divider>
+              <ion-text>{{ 'P_EXCHANGE.GROUP_COMMENT' | translate }}</ion-text>
+            </ion-item-divider>
+
+            <ion-label>{{ 'P_EXCHANGE.COMMENT_MANAGER' | translate }}</ion-label>
+            <ion-item>
+              <ion-textarea type="textarea"
+                            [placeholder]="'P_EXCHANGE.COMMENT_ENTER' | translate"
+                            [minlength]="10"
+                            formControlName="comment">
+              </ion-textarea>
+            </ion-item>
+            <small *ngIf="!exchangeForm.controls.comment.valid  && (exchangeForm.controls.comment.dirty || submitAttempt)">
+              <p>{{ 'P_EXCHANGE.COMMENT_VALID' | translate }}</p>
+            </small>
+          </ion-item-group>
+
+          <ion-button expand="block" (click)="onConfirm()">
+            <div class="btn-container">
+              <span>{{ 'P_DEVICE_ADD.CONFIRM' | translate }}</span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+          </ion-button>
+
+          <ion-item *ngIf="false" lines="none" (click)="displayHowToFindIMEI()">
+            <ion-label>
+              <h2>{{ 'P_DEVICE_ADD.HOW_TO_FIND_IMEI' | translate }}</h2>
+            </ion-label>
+          </ion-item>
+
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border ion-padding">
+  <img src="assets/logo/keep_talk_logo_horizon.png" class="intoo-logo-horizontal"  (click)="goToHomePage()"/>
+</ion-footer>

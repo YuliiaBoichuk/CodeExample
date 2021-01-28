@@ -1,0 +1,40 @@
+div.intoo-input-wrap-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+
+ion-button.btn-container-width{
+  width: 48%;
+  text-align: center;
+}
+
+div.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+form{
+  div{
+    p, ion-datetime, ion-input, ion-label, span{
+      color: var(--ion-color-light-contrast);
+    }
+  }
+}
+ion-select{
+  color: var(--ion-color-light-contrast);
+}
+
+.color-price{
+  color: #FF2A1B !important;
+}
+
+ion-footer {
+  padding-bottom: 7px !important;
+  padding-top: 0 !important;
+}

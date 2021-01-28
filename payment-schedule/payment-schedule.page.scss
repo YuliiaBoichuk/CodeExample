@@ -1,0 +1,32 @@
+ion-label.amount {
+  text-align: right;
+}
+
+p {
+  color: var(--ion-color-warning-contrast);
+}
+
+ion-label.val-label {
+  text-align: right;
+  flex: 1
+}
+
+h2.left-content {
+  color: var(--ion-color-primary);
+  white-space: pre-wrap;
+}
+
+ion-label.left {
+  flex: 2
+}
+
+ion-button {
+  width: 75%;
+  margin-top: 15%;
+  float: right;
+}
+
+ion-footer {
+  padding-bottom: 7px !important;
+  padding-top: 0 !important;
+}

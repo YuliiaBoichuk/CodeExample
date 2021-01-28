@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button routerLink="{{prevTest}}"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'GYROSCOPE_TEST.TITLE' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-col class="content-info" *ngIf="!showTest && !showCongrat">
+    <div class="big-icon">
+      <ion-icon name="planet-outline"></ion-icon>
+    </div>
+    <p align="center">
+      {{'GYROSCOPE_TEST.DESCRIPTION' | translate}}
+    </p>
+    <ion-button (click)="onStart()">
+      <ion-icon name="play"></ion-icon>
+      <ion-label>{{'START' | translate}}</ion-label>
+    </ion-button>
+<!--    <div class="btn-skip-wrapper">-->
+<!--      <a class="btn-skip" routerLink="{{nextTest}}">Пропустить</a>-->
+<!--    </div>-->
+  </ion-col>
+
+  <ion-col class="content-test" *ngIf="showTest && !showCongrat">
+    <div class="question">
+      <div class="big-icon">
+        <ion-icon name="planet-outline"></ion-icon>
+      </div>
+      <p align="center">
+        {{'GYROSCOPE_TEST.CHECK' | translate}}
+      </p>
+      <app-timer-countdown [time]="3"></app-timer-countdown>
+    </div>
+  </ion-col>
+
+  <ion-col class="content-info" *ngIf="showCongrat">
+    <div class="big-icon {{showCongratParam.iconClass}}">
+      <ion-icon name="{{showCongratParam.icon}}"></ion-icon>
+    </div>
+    <h2>{{showCongratParam.header}}</h2>
+    <p align="center">
+      {{showCongratParam.text}}
+    </p>
+    <div class="buttons-block">
+      <ion-button class="btn-back" routerLink="/devices/">
+        <ion-label>{{'TEST.BACK' | translate}}</ion-label>
+      </ion-button>
+      <ion-button class="btn-repeat" *ngIf="(showCongratParam.iconClass === 'icon-fail')" (click)="onRepeat();">
+        <ion-label>{{'TEST.REPEAT' | translate}}</ion-label>
+      </ion-button>
+      <ion-button class="btn-back" *ngIf="(!isLastTest)" routerLink="{{showCongratParam.nextTest}}">
+        <ion-label>{{'TEST.NEXT' | translate}}</ion-label>
+      </ion-button>
+    </div>
+  </ion-col>
+
+</ion-content>
+
+<ion-footer class="ion-no-border ion-padding">
+  <img src="assets/logo/keep_talk_logo_horizon.png" class="intoo-logo-horizontal" (click)="goToHomePage()"/>
+</ion-footer>

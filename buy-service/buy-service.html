@@ -1,0 +1,98 @@
+<ion-header class="ion-no-border" [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/my-services"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'P_BUY_SERVICE.TITLE' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+    <div class="container">
+
+        <div class="form">
+            <form [formGroup]="serviceForm">
+                <div *ngIf="customerDeviceId == 0" class="formSelectDeviceWrapper">
+                    <p align="center" *ngIf="this.devices.length > 0">{{ 'P_BUY_SERVICE.SELECT_CUSTOMER_DEVICE' | translate }}</p>
+                    <app-customer-devices-list [displayAddButton]="displayAddButton"
+                                               [url]="'/buy-service/?'"
+                                               textAddButton="{{ 'P_DEVICES.DEVICE_ADD' | translate }}"></app-customer-devices-list>
+                </div>
+                <div *ngIf="customerDeviceId != 0" class="formFieldsWrapper">
+                    <div class="intoo-input-wrap">
+                        <ion-text>{{ 'P_BUY_SERVICE.DeviceSaleDate' | translate }}</ion-text>
+                        <ion-item>
+                            <ion-datetime cancelText="{{ 'CANCEL' | translate }}" doneText="{{ 'SELECT' | translate }}" displayFormat="DD.MM.YYYY"
+                                          formControlName="CertificateUsedSaleDate"></ion-datetime>
+                        </ion-item>
+                        <small *ngIf="!serviceForm.controls.CertificateUsedSaleDate.valid  && (serviceForm.controls.CertificateUsedSaleDate.dirty || submitAttempt)">
+                            <p>{{ 'P_BUY_SERVICE.INVALID_DEVICE_SALE_DATE' | translate }}</p>
+                        </small>
+                    </div>
+                    <div class="intoo-input-wrap">
+                        <ion-text>{{ 'P_DEVICE_ADD.PRICE' | translate }}</ion-text>
+                        <ion-item>
+                            <ion-input class="color-price" type="number" formControlName="CostProduct" [disabled]="true" required>
+                            </ion-input>
+                            <span>&#8376;</span>
+                        </ion-item>
+                        <small *ngIf="!serviceForm.controls.CostProduct.valid  && (serviceForm.controls.CostProduct.dirty || submitAttempt)">
+                            <p>{{ 'P_DEVICE_ADD.PRICE_VALID' | translate }}</p>
+                        </small>
+                    </div>
+                    <div class="intoo-input-wrap">
+                        <ion-text>{{ 'P_BUY_SERVICE.CustomerIIN' | translate }}</ion-text>
+                        <ion-item>
+                            <ion-input type="text" formControlName="CustomerIIN" required>
+                            </ion-input>
+                        </ion-item>
+                        <small *ngIf="!serviceForm.controls.CustomerIIN.valid  && (serviceForm.controls.CustomerIIN.dirty || submitAttempt)">
+                            <p>{{ 'P_BUY_SERVICE.INVALID_CUSTOMER_IIN' | translate }}</p>
+                        </small>
+                    </div>
+                    <div *ngIf="!isNewDevice" class="intoo-input-wrap">
+                        <ion-item>
+                            <ion-label>{{ 'P_BUY_SERVICE.CUSTOMER_DEVICE_TEST' | translate }}</ion-label>
+                            <ion-select cancelText="{{ 'CANCEL' | translate }}" okText="{{ 'SELECT' | translate }}" interface="action-sheet" (ionChange)="onSelectTest($event)"
+                                        formControlName="CustomerDeviceTest">
+                                <ion-select-option *ngFor="let test of tests"
+                                                   value="{{test.Id}}">{{'#' + test.Id}} {{myFormatDate(test.CreatedAt)}}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <small *ngIf="!isForWeb && (!serviceForm.controls.CustomerIIN.valid  && (serviceForm.controls.CustomerIIN.dirty || submitAttempt))">
+                            <p>{{ 'P_BUY_SERVICE.INVALID_CUSTOMER_DEVICE_TEST' | translate }}</p>
+                        </small>
+                        <small *ngIf="isForWeb && (!serviceForm.value.CustomerDeviceTest)">
+                            <p>{{ 'P_BUY_SERVICE.INVALID_CUSTOMER_DEVICE_TEST' | translate }}</p>
+                        </small>
+                    </div>
+<!--                    <div class="intoo-input-wrap">-->
+<!--                        <ion-item>-->
+<!--                            <ion-label>{{ 'P_BUY_SERVICE.IsCredit' | translate }}</ion-label>-->
+<!--                            <ion-checkbox formControlName="isCredit"></ion-checkbox>-->
+<!--                        </ion-item>-->
+<!--                    </div>-->
+<!--                    <div class="intoo-input-wrap" *ngIf="serviceForm.value.isCredit">-->
+<!--                        <ion-text>{{ 'P_BUY_SERVICE.CreditAgreementNumber' | translate }}</ion-text>-->
+<!--                        <ion-item>-->
+<!--                            <ion-input type="text" formControlName="CreditAgreementNumber">-->
+<!--                            </ion-input>-->
+<!--                        </ion-item>-->
+<!--                    </div>-->
+                    <ion-note *ngIf="submitAttempt" color="danger">{{ 'P_EXCHANGE.REQUIRED_VALID' | translate }}</ion-note>
+                    <div class="intoo-input-wrap">
+                        <ion-button (click)="displayHowToPassTests(serviceForm)" expand="block">
+                            <div class="btn-container">
+                                <span>{{ 'LOGIN_REGISTER.BTN_NEXT' | translate }}</span>
+                                <ion-icon name="arrow-forward-outline"></ion-icon>
+                            </div>
+                        </ion-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ion-content>
+<ion-footer class="ion-no-border ion-padding">
+    <img src="assets/logo/keep_talk_logo_horizon.png" class="intoo-logo-horizontal" (click)="goToHomePage()"/>
+</ion-footer>

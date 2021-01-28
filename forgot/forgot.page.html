@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="container">
+
+   <div class="title">
+     <h2>{{ 'LOGIN_REGISTER.RESTORE_TITLE' | translate }}</h2>
+     <p *ngIf="(pType === 'request')">{{ 'LOGIN_REGISTER.FILL_YOUR_DATA_RESTORE' | translate }}</p>
+   </div>
+
+   <div class="form">
+       <form [formGroup]="forgotForm1" *ngIf="(pType === 'request')">
+         <div>
+             <ion-note *ngIf="userNotFound" color="danger">{{ 'LOGIN_REGISTER.NOTIF.CHECK_PHONE_FAIL_A' | translate }}</ion-note>
+             <ion-note *ngIf="codeNotValid" color="danger">{{ 'LOGIN_REGISTER.NOTIF.VALID_SMS' | translate }}</ion-note>
+             <ion-item>
+                <ion-icon slot="start" name="phone-portrait-outline"></ion-icon>
+                <ion-input maxlength="14"
+                           (ionFocus)="helperService.fillStartingPhoneNumber($event)"
+                           placeholder="{{ 'LOGIN_REGISTER.PHONE' | translate }}" type="tel" formControlName="phoneNumber">
+                </ion-input>
+             </ion-item>
+             <small *ngIf="!forgotForm1.controls.phoneNumber.valid && !forgotForm1.controls.phoneNumber.pending && (forgotForm1.controls.phoneNumber.dirty || submitAttempt)">
+                 <p>{{ 'LOGIN_REGISTER.NOTIF.VALID_PHONE' | translate }}</p>
+             </small>
+             <small *ngIf="forgotForm1.controls.phoneNumber.pending">
+                 <p>{{ 'LOGIN_REGISTER.NOTIF.CHECK_PHONE' | translate }}</p>
+             </small>
+             <!--<small *ngIf="!forgotForm1.controls.phoneNumber.valid && !forgotForm1.controls.phoneNumber.pending && (forgotForm1.controls.phoneNumber.dirty || submitAttempt)">
+                 <p>{{ 'LOGIN_REGISTER.NOTIF.CHECK_PHONE_FAIL_P' | translate }}</p>
+             </small>-->
+
+             <ion-button expand="block" (click)="onNext()">
+               <div class="btn-container">
+                 <span>{{ 'LOGIN_REGISTER.BTN_NEXT' | translate }}</span>
+               <ion-icon name="arrow-forward-outline"></ion-icon>
+               </div>
+             </ion-button>
+             <div class="ion-text-center">
+                 <span><a [routerLink]="[ '/login']" (click)="formClear()">{{ 'LOGIN_REGISTER.BTN_CANCEL' | translate }}</a></span>
+             </div>
+         </div>
+       </form>
+
+       <form [formGroup]="forgotForm2" *ngIf="(pType === 'reset')">
+           <div>
+               <ion-item>
+                   <ion-icon slot="start" name="mail-outline"></ion-icon>
+                   <ion-input maxlength="6"
+                              minlength="6"
+                              placeholder="{{ 'LOGIN_REGISTER.SMS_CODE' | translate }}" type="number" formControlName="activationCode">
+                   </ion-input>
+               </ion-item>
+               <small *ngIf="!forgotForm2.controls.activationCode.valid && !forgotForm2.controls.activationCode.pending && (forgotForm2.controls.activationCode.dirty || submitAttempt)">
+                   <p>{{ 'LOGIN_REGISTER.NOTIF.VALID_SMS' | translate }}</p>
+               </small>
+               <small *ngIf="forgotForm2.controls.activationCode.pending">
+                   <p>{{ 'LOGIN_REGISTER.NOTIF.CHECK_SMS' | translate }}</p>
+               </small>
+               <!--<small *ngIf="!forgotForm2.controls.activationCode.valid && !forgotForm2.controls.activationCode.pending && (forgotForm2.controls.activationCode.dirty || submitAttempt)">
+                   <p>{{ 'LOGIN_REGISTER.NOTIF.CHECK_PHONE_FAIL_P' | translate }}</p>
+               </small>-->
+
+
+               <ion-item>
+                   <ion-icon slot="start" name="key-outline"></ion-icon>
+                   <ion-input placeholder="{{ 'LOGIN_REGISTER.PASSWORD' | translate }}" type="password" formControlName="password" (input)='analyzePassword($event.target.value)'>
+                   </ion-input>
+                   <span class="quest-icon-style" *ngIf="true" (click)="showPasswordInfo()" lines="none">&#63;</span>
+               </ion-item>
+               <div class="strength-password">
+                   <ion-progress-bar [color]="passwordStrength.color" [value]="passwordStrength.value" *ngIf="passwordStrength.value"></ion-progress-bar>
+               </div>
+
+               <small *ngIf="!forgotForm2.controls.password.valid  && (forgotForm2.controls.password.dirty || submitAttempt)">
+                   <p>{{ 'LOGIN_REGISTER.NOTIF.VALID_PASSWORD' | translate }}</p>
+               </small>
+
+               <ion-item>
+                   <ion-icon slot="start" name="key"></ion-icon>
+                   <ion-input placeholder="{{ 'LOGIN_REGISTER.PASSWORD_CONFIRM' | translate }}" type="password" formControlName="passwordConfirm">
+                   </ion-input>
+               </ion-item>
+               <small *ngIf="!forgotForm2.controls.passwordConfirm.valid  && (forgotForm2.controls.passwordConfirm.dirty || submitAttempt)">
+                   <p>{{ 'LOGIN_REGISTER.NOTIF.CONFIRM_PASSWORD' | translate }}</p>
+               </small>
+               <small *ngIf="!forgotForm2.controls.passwordConfirm.errors && forgotForm2.hasError('passwordNotMatch') && (forgotForm2.controls.passwordConfirm.dirty || forgotForm2.controls.passwordConfirm.touched)">
+                   <p style="color: #ea6153;">{{ 'LOGIN_REGISTER.NOTIF.CONFIRM_PASSWORD_FAIL' | translate }}</p>
+               </small>
+
+
+               <ion-button expand="block" (click)="onReset();">
+                   <div class="btn-container">
+                       <span>{{ 'LOGIN_REGISTER.BTN_CHANGE' | translate }}</span>
+                       <ion-icon name="arrow-forward-outline"></ion-icon>
+                   </div>
+               </ion-button>
+
+               <div class="ion-text-center">
+                   <span><a [routerLink]="[ '/login']">{{ 'LOGIN_REGISTER.BTN_CANCEL' | translate }}</a></span>
+               </div>
+
+           </div>
+       </form>
+       <div class="ion-text-center">
+           <span>{{ 'LOGIN_REGISTER.HAVE_ACC' | translate }} <a [routerLink]="[ '/login']">{{ 'LOGIN_REGISTER.SIGN_IN' | translate }}</a></span>
+       </div>
+   </div>
+
+  </div>
+
+ </ion-content>

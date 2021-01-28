@@ -1,0 +1,26 @@
+.container {
+    height: 100%;
+}
+.title {
+    p {
+        margin-top: 2rem;
+    }
+}
+ion-button {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+ion-input{
+    color: var(--ion-color-warning-contrast);
+}
+
+.form {
+    span.quest-icon-style {
+        color: var(--ion-color-primary);
+        font-size: 18px;
+    }
+
+    .strength-password {
+        padding-left: 47px;
+    }
+}
